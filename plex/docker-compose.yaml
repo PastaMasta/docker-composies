@@ -1,0 +1,17 @@
+---
+version: "2.1"
+services:
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=2000 # user: repo
+      - PGID=2000 # group: repo
+      - VERSION=docker
+    volumes:
+      - /data/repo/media/plexconfig:/config
+      - /data/repo/media/shows:/tv
+      - /data/repo/media/movies:/movies
+      - /data/repo/media/music:/music
+    restart: unless-stopped
