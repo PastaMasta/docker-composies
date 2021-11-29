@@ -10,7 +10,7 @@ services:
       - PGID=2000 # group: repo
       - VERSION=docker
     volumes:
-      - /data/repo/media/plexconfig:/config
+      - /data/virt/docker/plex:/config
       - /data/repo/media/shows:/tv
       - /data/repo/media/movies:/movies
       - /data/repo/media/music:/music
