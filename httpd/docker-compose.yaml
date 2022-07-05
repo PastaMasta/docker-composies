@@ -1,0 +1,8 @@
+---
+version: "2.1"
+services:
+  httpd:
+    image: httpd
+    container_name: httpd
+    ports:
+      - '8080:80'
