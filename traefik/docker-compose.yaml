@@ -20,4 +20,4 @@ services:
 networks:
   default:
     name: traefik-network
-    driver: bridge
+    external: true
