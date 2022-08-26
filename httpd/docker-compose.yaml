@@ -1,15 +1,17 @@
 ---
 version: "2.1"
+
 services:
+
   web1:
     image: httpd
     container_name: web1
     labels:
-    - "traefik.enable=true"
-    - "traefik.http.routers.web1.rule=Host(`web1.localdomain`)"
-    - "traefik.http.routers.web1.entrypoints=web"
+      - "traefik.enable=true"
+      - "traefik.http.routers.web1.rule=Host(`web1.localdomain`)"
+      - "traefik.http.routers.web1.entrypoints=web"
 
 networks:
   default:
-    name: revproxy-network
+    name: traefik-network
     external: true
