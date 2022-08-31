@@ -5,19 +5,25 @@ services:
   traefik:
     image: "traefik:v2.8"
     container_name: "traefik"
+    restart: unless-stopped
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
+      - "--providers.docker.endpoint=tcp://socket-proxy:2375"
     ports:
       - "80:80"
       - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - traefik
+      - socket
 
 networks:
-  default:
+  traefik:
     name: traefik-network
+    external: true
+  socket:
+    name: socket-network
     external: true
