@@ -11,6 +11,8 @@ services:
       - "127.0.0.1:2375:237"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - docker-socket-network
     environment:
       BUILD: 1
       COMMIT: 1
@@ -31,6 +33,6 @@ services:
       VOLUMES: 1
 
 networks:
-  default:
-    name: socket-network
+  docker-socket:
+    name: docker-socket-network
     external: true

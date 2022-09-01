@@ -18,12 +18,12 @@ services:
       - "8080:8080"
     networks:
       - traefik
-      - socket
+      - docker-socket
 
 networks:
   traefik:
     name: traefik-network
     external: true
-  socket:
-    name: socket-network
+  docker-socket:
+    name: docker-socket-network
     external: true
