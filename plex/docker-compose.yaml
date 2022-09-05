@@ -4,14 +4,21 @@ services:
   plex:
     image: ghcr.io/linuxserver/plex
     container_name: plex
-    network_mode: host
-    environment:
-      - PUID=2000 # user: repo
-      - PGID=2000 # group: repo
-      - VERSION=docker
-    volumes:
-      - /data/virt/docker/plex:/config
-      - /data/repo/media/shows:/tv
-      - /data/repo/media/movies:/movies
-      - /data/repo/media/music:/music
     restart: unless-stopped
+    env_file: .env
+    volumes:
+      - "${STORAGE_BASE:?err}/plex:/config"
+      - "${REPO_BASE:?err}/media/shows:/tv"
+      - "${REPO_BASE:?err}/media/movies:/movies"
+      - "${REPO_BASE:?err}/media/music:/music"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.plex.rule=Host(`plex.localdomain`)"
+      - "traefik.http.routers.plex.entrypoints=web"
+      - "traefik.http.routers.plex.service=plex"
+      - "traefik.http.services.plex.loadbalancer.server.port=32400"
+
+networks:
+  default:
+    name: traefik-network
+    external: true
