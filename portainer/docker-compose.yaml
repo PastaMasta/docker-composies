@@ -17,3 +17,11 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.entrypoints=web"
       - "traefik.http.routers.portainer.rule=Host(`portainer.localdomain`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    name: traefik-network
+    external: true
