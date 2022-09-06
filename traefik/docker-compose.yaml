@@ -6,21 +6,15 @@ services:
     image: "traefik:v2.8"
     container_name: "traefik"
     restart: unless-stopped
-    command:
-      - "--api.insecure=true"
-
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.endpoint=tcp://socket-proxy:2375"
-
-      - "--entrypoints.web.address=:80"
-
     ports:
       - "80:80"
+      - "443:443"
       - "8080:8080"
     networks:
       - traefik
       - docker-socket
+    volumes:
+      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
 
 networks:
   traefik:
