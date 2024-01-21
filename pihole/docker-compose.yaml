@@ -12,11 +12,10 @@ services:
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)
     volumes:
-      - "${STORAGE_BASE:?err}/pihole/etc-pihole:/etc/pihole"
-      - "${STORAGE_BASE:?err}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
+      - "/data/virt/docker/pihole/etc-pihole:/etc/pihole"
+      - "/data/virt/docker/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
     environment:
       TZ: 'Europe/London'
-      WEBPASSWORD: hello
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pihole.entrypoints=web"
