@@ -6,20 +6,38 @@ services:
     image: ghcr.io/linuxserver/plex
     container_name: plex
     restart: unless-stopped
-    env_file: .env
+    environment:
+      - VERSION=docker
+      - PUID=2000 # repo
+      - PGID=2000 # repo
+      - TZ=Europe/London
+      - ADVERTISE_IP="http://plex.localdomain:32400/"
     ports:
+      - 1900:1900/udp
+      - 3005:3005/tcp
       - 32400:32400/tcp
       - 32400:32400/udp
-      - 3005:3005/tcp
-      - 8324:8324/tcp
-      - 32469:32469/tcp
-      - 1900:1900/udp
       - 32410:32410/udp
       - 32412:32412/udp
       - 32413:32413/udp
       - 32414:32414/udp
+      - 32469:32469/tcp
+      - 8324:8324/tcp
     volumes:
-      - "${STORAGE_BASE:?err}/plex:/config"
-      - "${REPO_BASE:?err}/media/shows:/tv"
-      - "${REPO_BASE:?err}/media/movies:/movies"
-      - "${REPO_BASE:?err}/media/music:/music"
+      - "/data/virt/docker/plex:/config"
+      - "/data/repo/media/shows:/tv"
+      - "/data/repo/media/movies:/movies"
+      - "/data/repo/media/music:/music"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.plex.entrypoints=web"
+      - "traefik.http.routers.plex.rule=Host(`plex.localdomain`)"
+      - "traefik.http.services.plex.loadbalancer.server.port=32400"
+
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    name: traefik-network
+    external: true
