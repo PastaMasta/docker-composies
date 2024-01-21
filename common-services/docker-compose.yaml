@@ -2,6 +2,20 @@
 version: "3"
 
 services:
+  traefik:
+    image: "traefik:v2.8"
+    container_name: "traefik"
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      - traefik-network
+      - docker-socket-network
+    volumes:
+      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
+
   socket-proxy:
     image: "tecnativa/docker-socket-proxy:latest"
     container_name: "socket-proxy"
@@ -12,7 +26,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
-      - docker-socket
+      - docker-socket-network
     environment:
       BUILD: 1
       COMMIT: 1
@@ -33,6 +47,9 @@ services:
       VOLUMES: 1
 
 networks:
-  docker-socket:
+  traefik-network:
+    name: traefik-network
+    external: true
+  docker-socket-network:
     name: docker-socket-network
     external: true
