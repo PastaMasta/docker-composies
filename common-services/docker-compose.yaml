@@ -1,0 +1,55 @@
+---
+version: "3"
+
+services:
+  traefik:
+    image: "traefik:v2.8"
+    container_name: "traefik"
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      - traefik-network
+      - docker-socket-network
+    volumes:
+      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
+
+  socket-proxy:
+    image: "tecnativa/docker-socket-proxy:latest"
+    container_name: "socket-proxy"
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "127.0.0.1:2375:237"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - docker-socket-network
+    environment:
+      BUILD: 1
+      COMMIT: 1
+      CONFIGS: 1
+      CONTAINERS: 1
+      DISTRIBUTION: 1
+      EXEC: 1
+      IMAGES: 1
+      INFO: 1
+      NETWORKS: 1
+      NODES: 1
+      PLUGINS: 1
+      SERVICES: 1
+      SESSION: 1
+      SWARM: 1
+      SYSTEM: 1
+      TASKS: 1
+      VOLUMES: 1
+
+networks:
+  traefik-network:
+    name: traefik-network
+    external: true
+  docker-socket-network:
+    name: docker-socket-network
+    external: true
