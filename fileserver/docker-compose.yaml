@@ -1,0 +1,29 @@
+---
+version: "3"
+
+services:
+
+  nfs-server:
+    image: erichough/nfs-server
+    container_name: nfs-server
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - ./exports:/etc/exports:ro
+      - "/data/repo/:/data/repo/"
+    security_opt:
+      # If on debian, need to allow container through app armor
+      # sudo apparmor_parser -r -W ./apparmor.txt
+      - apparmor=erichough-nfs
+
+  samba-server:
+    image: ghcr.io/servercontainers/samba
+    container_name: samba-server
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - CAP_NET_ADMIN
+    volumes:
+      - "/data/repo/:/share/repo/"
