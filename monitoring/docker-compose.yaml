@@ -1,0 +1,27 @@
+---
+version: "3"
+
+services:
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config:/app/config
+        # Nas mounts for storage monitoring
+      - /data/backup:/data/backup:ro
+      - /data/repo:/data/repo:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.entrypoints=web"
+      - "traefik.http.routers.homepage.rule=Host(`homepage.localdomain`)"
+      - "traefik.http.routers.homepage.service=homepage"
+      - "traefik.http.services.homepage.loadBalancer.server.port=3000"
+
+networks:
+  default:
+    name: traefik-network
+    external: true

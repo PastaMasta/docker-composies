@@ -1,0 +1,22 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/service-widgets
+
+- resources:
+    cpu: true
+    memory: true
+    uptime: true
+    refresh: 1000
+
+
+- resources:
+    label: repo
+    expanded: true 
+    disk:
+      - /data/repo
+
+- resources:
+    label: backups
+    expanded: true 
+    disk:
+      - /data/backup

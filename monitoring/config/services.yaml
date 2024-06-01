@@ -1,0 +1,39 @@
+---
+- Services:
+    - Plex:
+        icon: plex.png
+        href: https://plex.localdomain:32400
+        siteMonitor: https://plex.localdomain:32400
+        widgt:
+          type: plex
+          fields: ["streams", "movies", "tv"]
+          url: https://plex.localdomain:32400
+          key: {{PLEX_API_KEY}}
+    - Portainer:
+        icon: portainer.png
+        href: http://portainer.localdomain
+        siteMonitor: http://portainer.localdomain
+        # id: 100
+        widget:
+          type: portainer
+          url: http://portainer.localdomain
+          env: 8 # pi-b
+          key: {{PORTAINER_API_KEY}}
+    - PiHole:
+        icon: pi-hole.png
+        href: http://pihole.localdomain
+        siteMonitor: http://pihole.localdomain
+        widget:
+          type: pihole
+          url: http://pihole.localdomain
+          version: 6 # required if running v6 or higher, defaults to 5
+          key: {{PI_HOLE_API_KEY}}
+- Arr:
+    - Grabby:
+        icon: qbittorrent.png
+        href: {{GRABBY}}
+        siteMonitor: {{GRABBY}}
+        widget:
+          type: qbittorrent
+          url: {{GRABBY}}
+          fields: ["download", "upload", "leech", "seed"]
