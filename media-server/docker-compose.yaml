@@ -25,7 +25,7 @@ services:
       - 8324:8324/tcp
     volumes:
       - "/data/virt/docker/plex:/config"
-      - "/data/repo/media/shows:/tv"
+      - "/data/repo/media/shows:/shows"
       - "/data/repo/media/movies:/movies"
       - "/data/repo/media/music:/music"
     labels:
