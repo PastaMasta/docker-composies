@@ -16,6 +16,7 @@ services:
       - "/data/virt/docker/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
     environment:
       TZ: 'Europe/London'
+      VIRTUAL_HOST: pihole.localdomain
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pihole.entrypoints=web"
