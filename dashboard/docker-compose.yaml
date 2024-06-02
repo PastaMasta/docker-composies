@@ -8,8 +8,11 @@ services:
     container_name: homepage
     restart: unless-stopped
     volumes:
+      # App config from this repo cloned down, due to portainer limitations
       - ./config:/app/config
-        # Nas mounts for storage monitoring
+      - /data/virt/docker/homepage/logs:/app/config/logs
+
+      # Nas mounts for storage monitoring
       - /data/backup:/data/backup:ro
       - /data/repo:/data/repo:ro
     labels:
