@@ -8,7 +8,7 @@
           type: plex
           fields: ["streams", "movies", "tv"]
           url: https://plex.localdomain:32400
-          key: {{PLEX_API_KEY}}
+          key: {{HOMEPAGE_VAR_PLEX_API_KEY}}
     - Portainer:
         icon: portainer.png
         href: http://portainer.localdomain
@@ -18,7 +18,7 @@
           type: portainer
           url: http://portainer.localdomain
           env: 8 # pi-b
-          key: {{PORTAINER_API_KEY}}
+          key: {{HOMEPAGE_VAR_PORTAINER_API_KEY}}
     - PiHole:
         icon: pi-hole.png
         href: http://pihole.localdomain
@@ -27,13 +27,13 @@
           type: pihole
           url: http://pihole.localdomain
           version: 6 # required if running v6 or higher, defaults to 5
-          key: {{PI_HOLE_API_KEY}}
+          key: {{HOMEPAGE_VAR_PI_HOLE_API_KEY}}
 - Arr:
     - Grabby:
         icon: qbittorrent.png
-        href: {{GRABBY}}
-        siteMonitor: {{GRABBY}}
+        href: {{HOMEPAGE_VAR_QBITTORRENT}}
+        siteMonitor: {{HOMEPAGE_VAR_GRABBY}}
         widget:
           type: qbittorrent
-          url: {{GRABBY}}
+          url: {{HOMEPAGE_VAR_GRABBY}}
           fields: ["download", "upload", "leech", "seed"]

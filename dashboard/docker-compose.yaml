@@ -20,6 +20,8 @@ services:
       - "traefik.http.routers.homepage.rule=Host(`homepage.localdomain`)"
       - "traefik.http.routers.homepage.service=homepage"
       - "traefik.http.services.homepage.loadBalancer.server.port=3000"
+    env_file:
+      - .secrets.env
 
 networks:
   default:
