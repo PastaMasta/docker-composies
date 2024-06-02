@@ -11,12 +11,12 @@
 
 - resources:
     label: repo
-    expanded: true 
+    expanded: true
     disk:
       - /data/repo
 
 - resources:
     label: backups
-    expanded: true 
+    expanded: true
     disk:
       - /data/backup

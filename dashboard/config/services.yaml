@@ -21,15 +21,25 @@
           key: {{HOMEPAGE_VAR_PORTAINER_API_KEY}}
     - PiHole:
         icon: pi-hole.png
-        href: http://pihole.localdomain
+        href: http://pihole.localdomain/admin
         siteMonitor: http://pihole.localdomain
         widget:
           type: pihole
           url: http://pihole.localdomain
-          version: 6 # required if running v6 or higher, defaults to 5
           key: {{HOMEPAGE_VAR_PI_HOLE_API_KEY}}
+
+    - Unifi:
+        icon: unifi.png
+        href: https://unifi-controller.localdomain:8443
+        siteMonitor: https://unifi-controller.localdomain:8443
+        widget:
+          type: unifi
+          url: https://unifi-controller.localdomain:8443
+          username: {{HOMEPAGE_VAR_UNIFI_USER}}
+          password: {{HOMEPAGE_VAR_UNIFI_PASS}}
+
 - Arr:
-    - Grabby:
+    - Torrents:
         icon: qbittorrent.png
         href: {{HOMEPAGE_VAR_QBITTORRENT}}
         siteMonitor: {{HOMEPAGE_VAR_GRABBY}}
