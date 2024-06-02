@@ -42,8 +42,8 @@
     - Torrents:
         icon: qbittorrent.png
         href: {{HOMEPAGE_VAR_QBITTORRENT}}
-        siteMonitor: {{HOMEPAGE_VAR_GRABBY}}
+        siteMonitor: {{HOMEPAGE_VAR_QBITTORRENT}}
         widget:
           type: qbittorrent
-          url: {{HOMEPAGE_VAR_GRABBY}}
+          url: {{HOMEPAGE_VAR_QBITTORRENT}}
           fields: ["download", "upload", "leech", "seed"]
