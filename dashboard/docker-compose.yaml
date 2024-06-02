@@ -4,11 +4,18 @@ version: "3"
 services:
 
   homepage:
-    image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     restart: unless-stopped
+    build: .
+      # ports:
+      # - 3000:3000
     volumes:
-      - ./config:/app/config
+      - /data/virt/docker/homepage:/app/config
+        #- /data/virt/docker/docker-composies/dashboard/config/bookmarks.yaml
+        #- /data/virt/docker/docker-composies/dashboard/config/services.yaml
+        #- /data/virt/docker/docker-composies/dashboard/config/settings.yaml
+        #- /data/virt/docker/docker-composies/dashboard/config/widgets.yaml
+
         # Nas mounts for storage monitoring
       - /data/backup:/data/backup:ro
       - /data/repo:/data/repo:ro
