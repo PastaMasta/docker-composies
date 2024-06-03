@@ -10,6 +10,12 @@
 
 
 - resources:
+    label: data-fast
+    expanded: true
+    disk:
+      - /data-fast
+
+- resources:
     label: repo
     expanded: true
     disk:

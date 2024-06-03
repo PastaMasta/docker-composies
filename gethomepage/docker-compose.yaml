@@ -13,6 +13,7 @@ services:
       - /data/virt/docker/homepage/logs:/app/config/logs
 
       # Nas mounts for storage monitoring
+      - /data-fast:/data-fast:ro
       - /data/backup:/data/backup:ro
       - /data/repo:/data/repo:ro
     labels:
