@@ -1,0 +1,31 @@
+---
+version: "3"
+
+services:
+
+  jdownloader:
+    image: jlesage/jdownloader-2
+    container_name: jdownloader
+    restart: unless-stopped
+
+    volumes:
+      - /data/virt/docker/jdownloader:/config:rw
+
+      - /data/repo/media/downloads/jdownloader:/output:rw
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jdownloader.entrypoints=web"
+      - "traefik.http.routers.jdownloader.rule=Host(`jdownloader.localdomain`)"
+      - "traefik.http.services.jdownloader.loadbalancer.server.port=5800"
+    networks:
+      - traefik
+
+  # vpn
+  # qbittorrent
+
+networks:
+  traefik:
+    name: traefik-network
+    external: true
+
