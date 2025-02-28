@@ -1,0 +1,18 @@
+---
+# Which env to run composees on for portainer
+environments:
+
+  wallace: # compute+storage node
+    - common-services
+
+    - media-server
+    - downloaders
+    - unifi-controller
+
+  gromit: # compute node
+    - common-services
+
+    - potainer
+    - pihole
+    - homeassistant
+    - gethomepage
