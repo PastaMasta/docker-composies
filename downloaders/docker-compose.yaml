@@ -3,29 +3,68 @@ version: "3"
 
 services:
 
+  gluetun:
+    image: qmcgaw/gluetun:v3
+    container_name: gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - /data/virt/docker/gluetun:/gluetun
+    env_file:
+      - .vpn.env
+    labels:
+      - "traefik.enable=true"
+      # Gluetun Built-in HTTP control server
+      - "traefik.http.routers.gluetun.entrypoints=web"
+      - "traefik.http.routers.gluetun.rule=Host(`gluetun.localdomain`)"
+      - "traefik.http.routers.gluetun.service=gluetun"
+      - "traefik.http.services.gluetun.loadbalancer.server.port=8000"
+      # jdownloader
+      - "traefik.http.routers.jdownloader.entrypoints=web"
+      - "traefik.http.routers.jdownloader.rule=Host(`jdownloader.localdomain`)"
+      - "traefik.http.routers.jdownloader.service=jdownloader"
+      - "traefik.http.services.jdownloader.loadbalancer.server.port=5800"
+      # qbittorrent
+      - "traefik.http.routers.qbittorrent.entrypoints=web"
+      - "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.localdomain`)"
+      - "traefik.http.routers.qbittorrent.service=qbittorrent"
+      - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
+    networks:
+      - traefik
+
   jdownloader:
     image: jlesage/jdownloader-2
     container_name: jdownloader
     restart: unless-stopped
-
     volumes:
       - /data/virt/docker/jdownloader:/config:rw
-
       - /data/repo/media/downloads/jdownloader:/output:rw
+    network_mode: 'service:gluetun'
+    depends_on:
+      gluetun:
+        condition: service_healthy
 
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.jdownloader.entrypoints=web"
-      - "traefik.http.routers.jdownloader.rule=Host(`jdownloader.localdomain`)"
-      - "traefik.http.services.jdownloader.loadbalancer.server.port=5800"
-    networks:
-      - traefik
-
-  # vpn
-  # qbittorrent
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    environment:
+      - PUID=2000
+      - PGID=2000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8081
+    volumes:
+      - /data/virt/docker/qbittorrent:/config:rw
+      - /data/repo/media/downloads/qbittorrent:/downloads:rw
+    network_mode: 'service:gluetun'
+    depends_on:
+      gluetun:
+        condition: service_healthy
 
 networks:
   traefik:
     name: traefik-network
     external: true
-
