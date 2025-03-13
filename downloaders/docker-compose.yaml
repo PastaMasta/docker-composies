@@ -15,6 +15,7 @@ services:
       - /data/virt/docker/gluetun:/gluetun
     env_file:
       - .vpn.env
+      - stack.env
     labels:
       - "traefik.enable=true"
       # Gluetun Built-in HTTP control server
