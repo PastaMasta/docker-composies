@@ -10,7 +10,7 @@ services:
     volumes:
       # App config from this repo cloned down, due to portainer limitations
       - ./config:/app/config
-      - /data/virt/docker/homepage/logs:/app/config/logs
+      - ${DEFAULT_DOCKER_PATH}/homepage/logs:/app/config/logs
 
       # Nas mounts for storage monitoring
       - /data-fast:/data-fast:ro
@@ -19,7 +19,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.homepage.entrypoints=web"
-      - "traefik.http.routers.homepage.rule=Host(`homepage.localdomain`)"
+      - "traefik.http.routers.homepage.rule=Host(`homepage.${DEFAULT_DOMAIN}`)"
       - "traefik.http.routers.homepage.service=homepage"
       - "traefik.http.services.homepage.loadBalancer.server.port=3000"
     env_file:

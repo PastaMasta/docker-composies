@@ -12,14 +12,14 @@ services:
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)
     volumes:
-      - "/data/virt/docker/pihole/etc-pihole:/etc/pihole"
-      - "/data/virt/docker/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
+      - "${DEFAULT_DOCKER_PATH}/pihole/etc-pihole:/etc/pihole"
+      - "${DEFAULT_DOCKER_PATH}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
     environment:
       TZ: 'Europe/London'
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pihole.entrypoints=web"
-      - "traefik.http.routers.pihole.rule=Host(`pihole.localdomain`)"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.${DEFAULT_DOMAIN}`)"
       - "traefik.http.routers.pihole.middlewares=pihole-admin"
       - "traefik.http.routers.pihole.service=pihole"
       - "traefik.http.middlewares.pihole-admin.addprefix.prefix=/admin"

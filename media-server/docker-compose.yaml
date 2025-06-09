@@ -11,7 +11,7 @@ services:
       - PUID=2000 # repo
       - PGID=2000 # repo
       - TZ=Europe/London
-      - ADVERTISE_IP="http://plex.localdomain:32400/"
+      - ADVERTISE_IP="http://plex.${DEFAULT_DOMAIN}:32400/"
     ports:
       - 1900:1900/udp
       - 3005:3005/tcp
@@ -24,14 +24,14 @@ services:
       - 32469:32469/tcp
       - 8324:8324/tcp
     volumes:
-      - "/data/virt/docker/plex:/config"
+      - "${DEFAULT_DOCKER_PATH}/plex:/config"
       - "/data/repo/media/shows:/shows"
       - "/data/repo/media/movies:/movies"
       - "/data/repo/media/music:/music"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.plex.entrypoints=web"
-      - "traefik.http.routers.plex.rule=Host(`plex.localdomain`)"
+      - "traefik.http.routers.plex.rule=Host(`plex.${DEFAULT_DOMAIN}`)"
       - "traefik.http.services.plex.loadbalancer.server.port=32400"
 
     networks:

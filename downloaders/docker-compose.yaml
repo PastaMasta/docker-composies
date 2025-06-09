@@ -12,24 +12,24 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - /data/virt/docker/gluetun:/gluetun
+      - "${DEFAULT_DOCKER_PATH}/gluetun:/gluetun"
     env_file:
       - .vpn.env
     labels:
       - "traefik.enable=true"
       # Gluetun Built-in HTTP control server
       - "traefik.http.routers.gluetun.entrypoints=web"
-      - "traefik.http.routers.gluetun.rule=Host(`gluetun.localdomain`)"
+      - "traefik.http.routers.gluetun.rule=Host(`gluetun.${DEFAULT_DOMAIN}`)"
       - "traefik.http.routers.gluetun.service=gluetun"
       - "traefik.http.services.gluetun.loadbalancer.server.port=8000"
       # jdownloader
       - "traefik.http.routers.jdownloader.entrypoints=web"
-      - "traefik.http.routers.jdownloader.rule=Host(`jdownloader.localdomain`)"
+      - "traefik.http.routers.jdownloader.rule=Host(`jdownloader.${DEFAULT_DOMAIN}`)"
       - "traefik.http.routers.jdownloader.service=jdownloader"
       - "traefik.http.services.jdownloader.loadbalancer.server.port=5800"
       # qbittorrent
       - "traefik.http.routers.qbittorrent.entrypoints=web"
-      - "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.localdomain`)"
+      - "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.${DEFAULT_DOMAIN}`)"
       - "traefik.http.routers.qbittorrent.service=qbittorrent"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
     networks:
@@ -40,7 +40,7 @@ services:
     container_name: jdownloader
     restart: unless-stopped
     volumes:
-      - /data/virt/docker/jdownloader:/config:rw
+      - "${DEFAULT_DOCKER_PATH}/jdownloader:/config:rw"
       - /data/repo/media/downloads/jdownloader:/output:rw
     network_mode: 'service:gluetun'
     depends_on:
@@ -57,7 +57,7 @@ services:
       - TZ=Etc/UTC
       - WEBUI_PORT=8081
     volumes:
-      - /data/virt/docker/qbittorrent:/config:rw
+      - "${DEFAULT_DOCKER_PATH}/qbittorrent:/config:rw"
       - /data/repo/media/downloads/qbittorrent:/downloads:rw
     network_mode: 'service:gluetun'
     depends_on:
